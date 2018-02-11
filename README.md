@@ -15,7 +15,7 @@ The following algorithm is implemented:
       - append currentlist with iparticle, particlesincontact
       - remove iparticle, particlesincontact from pendinglist   
 3. "second pass": for iparticle in list of all particles skipped in "first pass" 
-      - particlesincontact = list of all particles (absolute indiced) in contact with iparticle
+      - particlesincontact = list of all particles in contact with iparticle
       - equivalentclusters = list of cluster indices associated with particlesincontact 
       - set cluster indices of all particles associated with equivalentclusters to min(equivalentclusters) 
 4. compute properties of clusters by aggregating particles: [# particles, x-centroid, y-centroid, z-centroid]
