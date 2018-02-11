@@ -8,6 +8,7 @@ Bakshi, A., Altantzis, C., Bates, R.B., and Ghoniem, A. F.,"Multiphase-flow Stat
 The following algorithm is implemented: 
 
 1. currentlist = [ ], pendinglist = list of all particles, clusterindex = 0  
+
 2. "first pass"
     for iparticle in list of all particles
       if iparticle belongs to pendinglist 
