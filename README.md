@@ -9,7 +9,7 @@ The following algorithm is implemented:
 1. currentlist = [ ], pendinglist = list of all particles, clusterindex = 0  
 
 2. "first pass": for iparticle in pendinglist
-      - particlesincontact = list of all particles (absolute indiced) in contact with iparticle
+      - particlesincontact = list of all particles in contact with iparticle
       - clusterindex += 1
       - associate iparticle and intersection(particlesincontact, pendinglist) with clusterindex 
       - append currentlist with iparticle, particlesincontact
