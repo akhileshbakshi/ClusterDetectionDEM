@@ -22,7 +22,8 @@ The following algorithm is implemented:
 4. compute properties of clusters by aggregating particles: [# particles, x-centroid, y-centroid, z-centroid]
 
 Notes: 
-1. Current implementation assumes all particles of diameter dp
-2. Python implementation is ~2x slower, probably because of nested if within for loop 
-3. Scalability of code has not been tested. Suggestions welcome! 
+1. Current implementation assumes all particles of uniform diameter
+2. To relax criteria for cluster detection (esp. if solids loading is dilute), use dp = (1+tolerance) x particle-diameter 
+3. Python implementation is ~2x slower, probably because of nested if within for loop 
+4. Scalability of code has not been tested. Suggestions welcome! 
 
