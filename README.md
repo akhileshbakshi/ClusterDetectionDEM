@@ -4,7 +4,6 @@ ClusterDetectionDEM  detects clusters in gas-solid flows based on particle diame
 
 Bakshi, A., Altantzis, C., Bates, R.B., and Ghoniem, A. F.,"Multiphase-flow Statistics using 3D Detection and Tracking Algorithm (MS3DATA): Methodology and application to large-scale fluidized beds.", Chemical Engineering Journal 293 (2016): 355-364
 
-
 The following algorithm is implemented: 
 
 1. currentlist = [ ], pendinglist = list of all particles, clusterindex = 0  
@@ -22,8 +21,9 @@ The following algorithm is implemented:
 4. compute properties of clusters by aggregating particles: [# particles, x-centroid, y-centroid, z-centroid]
 
 Notes: 
-1. Current implementation assumes all particles of uniform diameter
-2. To relax criteria for cluster detection (esp. if solids loading is dilute), use dp = (1+tolerance) x particle-diameter 
-3. Python implementation is ~2x slower, probably because of nested if within for loop 
-4. Scalability of code has not been tested. Suggestions welcome! 
+1. sample file provided (currentparticlelocation.txt) has particle location data from one time frame 
+2. Current implementation assumes all particles of uniform diameter
+3. To relax criteria for cluster detection (esp. if solids loading is dilute), use dp = (1+tolerance) x particle-diameter 
+4. Python implementation is ~2x slower, probably because of nested if within for loop 
+5. Scalability of code has not been tested. Suggestions welcome! 
 
