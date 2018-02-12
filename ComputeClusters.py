@@ -28,18 +28,19 @@ pendinglist = np.arange(numparticles)
 clusterindex = 0 
 
 # first pass: link every particle with its neighbors in pendinglist using clusterindex  
-for iparticle in range(numparticles):
-    if np.isin(iparticle,pendinglist):
-        neighbormatrix[iparticle,2] = 1
-        currentparticlelocation = particlelocation[iparticle,:]
-        particlesincontact = np.sqrt(((currentparticlelocation - particlelocation)**2).sum(axis=1)) 
-        particlesincontact = np.asarray(np.where(particlesincontact<dp))[0,:] 
-        # particlesincontact = particles (absolute indices) in contact with iparticle, including iparticle itself 
-        
-        if len(particlesincontact) > 1: 
-            clusterindex += 1 
-            currentlist, pendinglist, neighbormatrix = \
-                func_updatelist(np.intersect1d(pendinglist,particlesincontact),clusterindex,neighbormatrix,currentlist,pendinglist) 
+while len(pendinglist)>0:
+    neighbormatrix[iparticle,2] = 1
+    currentparticlelocation = particlelocation[iparticle,:]
+    particlesincontact = np.sqrt(((currentparticlelocation - particlelocation)**2).sum(axis=1)) 
+    particlesincontact = np.asarray(np.where(particlesincontact<dp))[0,:] 
+    # particlesincontact = particles (absolute indices) in contact with iparticle, including iparticle itself 
+
+    if len(particlesincontact) == 1: 
+        pendinglist = np.setdiff1d(pendinglist,iparticle)
+    else: 
+        clusterindex += 1 
+        currentlist, pendinglist, neighbormatrix = \
+            func_updatelist(np.intersect1d(pendinglist,particlesincontact),clusterindex,neighbormatrix,currentlist,pendinglist) 
                   
 # second pass: check clusterindices of neighbors of all particles skipped in first pass 
 particleIDs = np.arange(numparticles)                    
@@ -59,6 +60,7 @@ clusterdistribution = np.zeros((len(np.unique(neighbormatrix[:,1])),4), dtype=fl
 for cluster in range(len(np.unique(neighbormatrix[:,1]))):
     clusterdistribution[cluster,0] = sum(neighbormatrix[:,1]==np.unique(neighbormatrix[:,1])[cluster])
     clusterdistribution[cluster,1:] = np.mean(particlelocation[neighbormatrix[:,1]==np.unique(neighbormatrix[:,1])[cluster],:],axis=0)
+clusterdistribution = clusterdistribution[1:,:]
 
 print("--- %s seconds ---" % (time.time() - start_time))      
     
