@@ -7,7 +7,7 @@
 clear all; clc;
 
 %% user variables 
-dp = 0.6;                                                   % distance between particle centroids for cluster detection. default = [particle diameter] 
+dp = 0.5;                                                   % distance between particle centroids for cluster detection. default = [particle diameter] 
 particlelocation = load("currentparticlelocation.txt");     % particle location = [x, y, z]
 
 %% initializing variables
@@ -19,17 +19,19 @@ pendinglist = linspace(1,numparticles,numparticles)';
 clusterindex = 0;
 
 %% first pass: link every particle with its neighbors in pendinglist using clusterindex 
-for iparticle = 1:numparticles
-    if sum(pendinglist==iparticle)==1
-        neighbormatrix(iparticle,3) = 1;
-        currentparticlelocation = particlelocation(iparticle,:);
-        particlesincontact = find(sqrt(sum((currentparticlelocation-particlelocation).^2,2))<dp);
-       % particlesincontact = particles (absolute indices) in contact with iparticle, including iparticle itself 
-        if length(particlesincontact)>1         % i.e. size of cluster has to be atleast 2 particles 
-            clusterindex = clusterindex + 1;    
-            [currentlist, pendinglist, neighbormatrix] = ...
-                   func_updatelist(intersect(pendinglist,particlesincontact),clusterindex,neighbormatrix,currentlist,pendinglist); 
-        end
+while ~isempty(pendinglist)
+    iparticle = pendinglist(1); 
+    neighbormatrix(iparticle,3) = 1;
+    currentparticlelocation = particlelocation(iparticle,:);
+    particlesincontact = find(sqrt(sum((currentparticlelocation-particlelocation).^2,2))<dp);
+   % particlesincontact = particles (absolute indices) in contact with iparticle, including iparticle itself 
+    if length(particlesincontact)==1
+             pendinglist = setdiff(pendinglist,iparticle);
+    else  
+        clusterindex = clusterindex + 1;    
+        neighbormatrix(intersect(pendinglist,particlesincontact),2) = clusterindex;
+        currentlist = [currentlist; intersect(pendinglist,particlesincontact)];
+        pendinglist = setdiff(pendinglist,intersect(pendinglist,particlesincontact));  
     end
 end
 
@@ -49,21 +51,12 @@ end
 %% compute distribution of clusters in format: [num-particles, x, y, z] 
 clusterdistribution = [];
 uniqueclusters = unique(neighbormatrix(:,2));
+uniqueclusters = uniqueclusters(2:end);
 for iclusters = 1:length(uniqueclusters)
     TF = neighbormatrix(:,2) == uniqueclusters(iclusters);
     centroid = mean(particlelocation(neighbormatrix(TF,1),:));
     clusterdistribution = [clusterdistribution; sum(TF), centroid];
 end
-
-
-%% function updates currentlist and pendinglist 
-function [currentlist, pendinglist, neighbormatrix] ...
-    = func_updatelist(currentparticle,currentindex,neighbormatrix,currentlist,pendinglist) 
-    neighbormatrix(currentparticle,2) = currentindex;
-    currentlist = [currentlist; currentparticle];
-    pendinglist = setdiff(pendinglist,currentparticle); 
-end
-
 
 
 
