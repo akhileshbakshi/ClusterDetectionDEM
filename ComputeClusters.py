@@ -29,6 +29,7 @@ clusterindex = 0
 
 # first pass: link every particle with its neighbors in pendinglist using clusterindex  
 while len(pendinglist)>0:
+    iparticle = pendinglist[0]
     neighbormatrix[iparticle,2] = 1
     currentparticlelocation = particlelocation[iparticle,:]
     particlesincontact = np.sqrt(((currentparticlelocation - particlelocation)**2).sum(axis=1)) 
