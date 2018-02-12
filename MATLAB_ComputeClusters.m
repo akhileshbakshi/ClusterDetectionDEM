@@ -3,11 +3,18 @@
 % code output: clusterdistribution which is Ncx4 matrix 
 % where number of rows Nc = number of clusters detected 
 % and each row has format [# particles with cluster, x-centroid, y-centroid, z-centroid]
-% NOTE: scaling of code has not been tested 
+
+%If you use this tool, please reference the following publication:
+%Bakshi, A., Altantzis, C., Bates, R.B., and Ghoniem, A. F.,
+%"Multiphase-flow Statistics using 3D Detection and Tracking Algorithm (MS3DATA): 
+%Methodology and application to large-scale fluidized beds.", 
+%Chemical Engineering Journal 293 (2016): 355-364
+%%------------------------------------------------------------------------
+
 clear all; clc;
 
 %% user variables 
-dp = 0.5;                                                   % distance between particle centroids for cluster detection. default = [particle diameter] 
+dp = 0.6;                                                   % distance between particle centroids for cluster detection. default = [particle diameter] 
 particlelocation = load("currentparticlelocation.txt");     % particle location = [x, y, z]
 
 %% initializing variables
