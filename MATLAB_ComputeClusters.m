@@ -29,9 +29,8 @@ while ~isempty(pendinglist)
              pendinglist = setdiff(pendinglist,iparticle);
     else  
         clusterindex = clusterindex + 1;    
-        neighbormatrix(intersect(pendinglist,particlesincontact),2) = clusterindex;
-        currentlist = [currentlist; intersect(pendinglist,particlesincontact)];
-        pendinglist = setdiff(pendinglist,intersect(pendinglist,particlesincontact));  
+        [currentlist, pendinglist, neighbormatrix] = ...
+              func_updatelist(intersect(pendinglist,particlesincontact),clusterindex,neighbormatrix,currentlist,pendinglist); 
     end
 end
 
@@ -56,6 +55,16 @@ for iclusters = 1:length(uniqueclusters)
     TF = neighbormatrix(:,2) == uniqueclusters(iclusters);
     centroid = mean(particlelocation(neighbormatrix(TF,1),:));
     clusterdistribution = [clusterdistribution; sum(TF), centroid];
+end
+
+
+
+%% function updates currentlist and pendinglist 
+function [currentlist, pendinglist, neighbormatrix] ...
+    = func_updatelist(currentparticle,currentindex,neighbormatrix,currentlist,pendinglist) 
+    neighbormatrix(currentparticle,2) = currentindex;
+    currentlist = [currentlist; currentparticle];
+    pendinglist = setdiff(pendinglist,currentparticle); 
 end
 
 
