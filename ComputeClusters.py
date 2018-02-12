@@ -2,12 +2,10 @@ from IPython import get_ipython
 get_ipython().magic('reset -sf')
 
 import numpy as np 
-import os
 import time 
 
 # enter variables
 dp = 0.6    # distance between particle centroids for cluster detection. default = [particle diameter] 
-os.chdir("D:\Pulsating Bed\DEM\DampingEffect\Python Calculations")  # file location 
 particlelocation = np.loadtxt('currentparticlelocation.txt', usecols=range(3)) # particle locations = [x,y,z]
 
 # calculations begin here 
