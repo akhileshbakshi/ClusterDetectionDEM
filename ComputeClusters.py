@@ -1,3 +1,16 @@
+# ----------------------------------------------------------------------
+# this code detects clusters based on particle size dp and location data 
+# code output: clusterdistribution which is Ncx4 matrix 
+# where number of rows Nc = number of clusters detected 
+# and each row has format [# particles with cluster, x-centroid, y-centroid, z-centroid]
+#
+# If you use this tool, please reference the following publication:
+# Bakshi, A., Altantzis, C., Bates, R.B., and Ghoniem, A. F.,
+# "Multiphase-flow Statistics using 3D Detection and Tracking Algorithm (MS3DATA): 
+# Methodology and application to large-scale fluidized beds.", 
+# Chemical Engineering Journal 293 (2016): 355-364
+# ------------------------------------------------------------------------
+
 from IPython import get_ipython
 get_ipython().magic('reset -sf')
 
